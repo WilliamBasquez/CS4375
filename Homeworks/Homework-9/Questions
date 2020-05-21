@@ -1,0 +1,15 @@
+Question 2: a) Trace the states visited if nodes A and B attempt to create a TCP connection by simultaneously sending each other SYN packets, that then cross in the network. b) Draw the ladder diagram, and label the states on each side. Hint: there should be two pairs of crossing packets. A SYN+ACK counts, in the state diagram, as an ACK.
+        *Answered in the diagrams
+
+Question 12: Suppose A connects to B via TCP, and sends the message “Attack at noon”, followed by FIN. Upon receiving this, B is sure it has received the entire message.
+(a). What can A be sure of upon receiving B’s own FIN+ACK?
+        *A can be sure that B received the message, and closed connection (ACK: B received the message, completeness is disregarded; FIN: B ended the connection, if B had not been sure it received the entire message, it would have either sent a message back to A, or sent just FIN back.
+
+(b). What can B be sure of upon receiving A’s final ACK?
+        *B can be sure that there was a timeout first, then once A sent the ACK, B knows A closed connection.
+
+(c). What is A not absolutely sure of after sending its final ACK?
+        *If B received the last ACK, since B had closed connection already.
+
+
+
