@@ -45,3 +45,6 @@ echo -e "\n\nResults"
 cat testLog.txt
 
 rm /tmp/c1 /tmp/t1 /tmp/t2
+
+
+
