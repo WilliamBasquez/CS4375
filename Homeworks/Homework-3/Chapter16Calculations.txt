@@ -1,0 +1,140 @@
+Chapter 16 Calculations
+
+1. Turn the address to binary
+2. MSB indicates the segment to which the address "belongs to"
+3. Calculate the max segment value (2^log(add. space size) - 1)
+4. Calculate the offset value (using all digits but the MSD)
+5. Subtract the max. segment from the previous number (if in seg.1)
+    If the segment is 0, this value is the offset
+6. Determine if the offset is less than or equal to the limit (Seg1)
+7. Calculate the physical address (Subtract the memory size - |offset|)
+    If the address is less than the limit, it remains the same
+
+Question 1: Seed = 0
+Address: 108
+1. 108 = 1101100
+2. 1 101100 -> Segment 1
+3. 2^(log(128)-1) = 2^(7-1) = 2^6 = 64
+4. 101100 = 44
+5. 44 - 64 = -20
+6. |-20| = 20 <= 20 -> valid
+7. 512 - 20 = 492
+
+Address: 97
+1. 97 = 1100001
+2. 1 100001 -> Segment 1
+3. 64
+4. 100001 = 33
+5. 33 - 64 = -31
+6. |-31| = 31 !<= 20 -> Segmentation Fault
+
+Address: 53
+1. 53 = 0110101
+2. 0 110101 -> Segment 0
+3. 64
+4. 110101 = 53
+5. 53
+6. |53| = !<= 20 -> Segmentation Fault
+
+Address: 33
+1. 33 = 0100001
+2. 0 100001 -> Segment 0
+3. 64
+4. 100001 = 33
+5. 33
+6. |33| !<= 20 -> Segmentation Fault
+
+Address: 65
+1. 65 = 1000001
+2. 1 000001 -> Segment 1
+3. 64
+4. 1 = 1
+5. 1 - 64 = -63
+6. |-63| = 63 !<= 20 -> Segmentation Fault
+
+
+Question 1: Seed = 1
+Address: 17
+1. 17 = 010001
+2. 0 10001 -> Segment 0
+3. 64
+4. 10001 = 17
+5. 17
+6. |17| <= 20 -> Valid
+7. 17
+
+Address 108
+7. 492
+
+Address 97
+6. Segmentation Fault
+
+Address 32
+1. 32 = 0100000
+2. 0 100000 -> Segment 0
+3. 64
+4. 100000 = 32
+5. 32
+6. |32| !<= 20 -> Segmentation Fault
+
+Address 63
+1. 63 = 0111111
+2. 0 111111 -> Segment 0
+3. 64
+4. 111111 = 63
+5. 63
+6. |63| !<= 20 -> Segmentation Fault
+
+
+Question 1: Seed = 2
+Address 122
+1. 122 = 1111010
+2. 1 111010 -> Segment 1
+3. 64
+4. 111010 = 58
+5. 58 - 64 = -6
+6. |-6| = 6 <= 20 -> Valid
+7. 512 - 6 = 506
+
+Address 121
+1. 121 = 1111001
+2. 1 111001 -> Segment 1
+3. 64
+4. 111001 = 57
+5. 57 - 64 = -7
+6. |-7| = 7 <= 20 -> Valid
+7. 512 - 7 = 505
+
+Address 7
+1. 7 = 0111
+2. 0 111 -> Segment 0
+3. 64
+4. 111 = 7
+5. 7
+6. |7| <= 20 -> Valid
+7. 7
+
+Address 10
+1. 10 = 01010
+2. 0 1010 -> Segment 0
+3. 64
+4. 1010 = 10
+5. 10
+6. |10| <= 20 -> Valid
+7. 10
+
+Address 106
+1. 106 = 1101010
+2. 1 101010 -> Segment 1
+3. 64
+4. 101010 = 42
+5. 42 - 64 = -22
+6. |-22| = 22 !<= 20 -> Segmentation Fault
+
+
+Question 2
+To get the highest possible Virtual address, we have to work backwards
+
+
+Question 3
+To get the first 2 addresses legally, the base needs to 0, and the limit needs to be 2, this way we are forcing addresses that are in the bounds [0,2) to be legal. Then, this will make the other addresses illegal, but by setting the base of segment 1 (which grows downwards) to be the total physical memory (128B), and setting the limit to be 2 as well, we are forcing the addresses that are in the bounds [126,128) to be legal; the remaining addresses will not fall under either range, thus making them illegal.
